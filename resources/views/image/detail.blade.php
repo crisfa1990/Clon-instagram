@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.app');
 
-@section('content')
+@section('content');
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             @include('includes.message')
-            @foreach($images as $image)
 
             <div class="card pub_image">
                 <div class="card-header">
@@ -33,7 +33,6 @@
                 </div>
                 <div class="description">
                     <span class="nickname"> {{'@'.$image->user->nick}} </span>
-                    <span class="nickname date"> {{ '| '.$image->created_at }} </span>
                     <p>{{$image->description}}</p>
 
                 </div>
@@ -43,12 +42,8 @@
                 <div class="comments">
                     <a href="#" class="btn btn-sm btn-warning btn-comments"> Comentarios({{ count($image->comments) }}) </a>
                 </div>
-            </div>
-            @endforeach
-        <!-- Paginacion -->
-            <div class="clearfix"></div>
-                {{ $images->links() }}
 
+            </div>
         </div>
     </div>
 </div>
