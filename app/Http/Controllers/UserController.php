@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage; // Se agrega para usar el Storage
 use Illuminate\Support\Facades\File;
+use App\User;
 
 class UserController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
     }
+
     public function config (){
 
         return view('user.config');
@@ -59,4 +61,29 @@ class UserController extends Controller
         $file = Storage::disk('users')->get($filename);
         return new Response($file, 200);
     }
+    public function profile($id){
+        $user = User::find($id);
+
+        return view('user.profile', [
+            'user' => $user
+        ]);
+    }
+    public function index($search = null){
+        if(!empty($search)){
+            $users = User::where('nick', 'LIKE', '%'.$search.'%') //Aqui se realiza la busqueda con LIKE(Sea igual a), buscando algo parecido al 3° parametro
+                ->orWhere('name', 'LIKE', '%'.$search.'%')
+                ->orWhere('surname', 'LIKE', '%'.$search.'%')
+                ->orderBy('id', 'desc')
+                ->paginate(5);
+        }else{
+            $users = User::orderBy('id', 'desc')->paginate(5);
+        }
+
+        return view('user.index',[
+            'users' =>$users
+        ]);
+    }
 }
+
+
+

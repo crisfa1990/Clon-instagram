@@ -11,6 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/main.js') }}" ></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -54,8 +55,15 @@
                                 <a href="{{route('home')}}" class="nav-link">Inicio</a>
                             </li>
                             <li class="nav-item">
-                            <a href="{{route('image.create')}}" class="nav-link">Subir imagen</a>
+                                <a href="{{route('image.create')}}" class="nav-link">Subir imagen</a>
                             </li>
+                            <li class="nav-item">
+                                    <a href="{{route('user.index')}}" class="nav-link">Usuarios</a>
+                                </li>
+                            <li class="nav-item">
+                                <a href="{{route('likes')}}" class="nav-link">Favoritos</a>
+                            </li>
+
                             <li>
                                 @include ('includes.avatar')
                             </li>
@@ -65,7 +73,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                    <a class="dropdown-item" href="{{route('profile',[ 'id' => Auth::user()->id ])}}">Mi perfil</a>
+                                    <a class="dropdown-item" href="{{route('config')}}">Configuración</a>
+                                    <a class="dropdown-item" href="{{route('logout')}}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Cerrar sesión') }}
@@ -74,8 +84,7 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
-                                    <a class="dropdown-item" href="">Mi perfil</a>
-                                <a class="dropdown-item" href="{{route('config')}}">Configuración</a>
+
                                 </div>
                             </li>
                         @endguest

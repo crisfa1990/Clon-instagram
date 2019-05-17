@@ -6,17 +6,23 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    Subir nueva imagen
+                    Editar mi imagen
                 </div>
             </div>
 
             <div class="card-body">
-                <form action="{{ route('image.save') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{route('image.update')}}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="image_id" value="{{$image->id}}" />
                     <div class="form-group row">
                         <label for="image_path" class="col-md-3 col-form-label text-md-right">Imagen</label>
                         <div class="col-md-7">
-                            <input type="file" name="image_path" id="image_path" class="form-control {{ $errors->has('image_path') ? 'is-invalid' : ''}}" required/>
+                                @if($image->user->image)
+                                <div class="container-avatar">
+                                        <img src="{{route ('image.file', ['filename' => $image->image_path])}}" class="avatar" />
+                                </div>
+                                @endif
+                            <input type="file" name="image_path" id="image_path" class="form-control {{ $errors->has('image_path') ? 'is-invalid' : ''}}" >
                             @if($errors->has('image_path'))
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('image_path') }}</strong>
@@ -28,7 +34,7 @@
                     <div class="form-group row">
                         <label for="description" class="col-md-3 col-form-label text-md-right">Descripción</label>
                         <div class="col-md-7">
-                            <textarea name="description" id="description" class="form-control {{ $errors->has('description') ? 'is-invalid' : ''}}" required> </textarea>
+                        <textarea name="description" id="description" class="form-control {{ $errors->has('description') ? 'is-invalid' : ''}}" required> {{$image->description}}</textarea>
                             @if($errors->has('description'))
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('description') }}</strong>
@@ -39,7 +45,7 @@
 
                     <div class="form-group row">
                         <div class="col-md-6 offset-md-3">
-                            <input type="submit" class="btn btn-primary" value="Subir imagen">
+                            <input type="submit" class="btn btn-primary" value="Actualizar imagen">
                         </div>
                     </div>
 
